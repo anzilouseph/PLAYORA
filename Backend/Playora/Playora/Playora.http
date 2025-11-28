@@ -1,0 +1,6 @@
+@Playora_HostAddress = http://localhost:5289
+
+GET {{Playora_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
