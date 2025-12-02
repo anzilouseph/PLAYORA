@@ -14,17 +14,21 @@ namespace Playora.Utility
         /// </summary>
         public static string HashPassword(string password, out string salt)
         {
-            var saltBytes = RandomNumberGenerator.GetBytes(KeySize);
-            salt = Convert.ToBase64String(saltBytes);
 
-            var hash = Rfc2898DeriveBytes.Pbkdf2(
-                Encoding.UTF8.GetBytes(password),
-                saltBytes,
-                Iterations,
-                HashAlgorithm,
-                KeySize);
+            if(password ==null)
+            {
+            }
+                var saltBytes = RandomNumberGenerator.GetBytes(KeySize);
+                salt = Convert.ToBase64String(saltBytes);
 
-            return Convert.ToBase64String(hash);
+                var hash = Rfc2898DeriveBytes.Pbkdf2(
+                    Encoding.UTF8.GetBytes(password),
+                    saltBytes,
+                    Iterations,
+                    HashAlgorithm,
+                    KeySize);
+
+                return Convert.ToBase64String(hash);
         }
 
         /// <summary>
