@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Playora.Dto;
 using Playora.IRepository;
@@ -27,8 +28,26 @@ namespace Playora.Controllers
             {
                 return StatusCode(500, ex.Message); 
             }
+        }
 
-
+        //for get user his owin profile
+        [HttpGet ("get-own-profile")]
+        public async Task<IActionResult> GetOwnProfile()
+        {
+            try
+            {
+                var userIdClaim = HttpContext.User.FindFirst(JwtRegisteredClaimNames.Sid);
+                if(userIdClaim == null || !long.TryParse(userIdClaim.Value,out long userId))
+                {
+                    return Unauthorized("Unable to generate Jwt");
+                }
+                var apiResposne = await _userManagementRepo.GetOwnProfileById(userId);
+                return Ok(apiResposne);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500,ex.Message);
+            }
         }
     }
 }

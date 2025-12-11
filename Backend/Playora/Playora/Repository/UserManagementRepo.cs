@@ -59,5 +59,32 @@
                 await _context.CommitTransactionAsync();
                 return ApiHelper<string>.Success(null, "User Created SuccessFully");
             }
+
+        //for get the user details by that user
+       public async Task<ApiHelper<UserForListDto>> GetOwnProfileById(long id)
+        {
+            if(id<=0)
+            {
+                return ApiHelper<UserForListDto>.Error("Invalid Request");
+            }
+
+            var userData = _context.Users.Where(x => !x.IsDelete && x.UserLevelId == id).FirstOrDefault();
+            if(userData == null)
+            {
+                return ApiHelper<UserForListDto>.Error("No User");
+            }
+            var userLevelName = _context.Levels.Where(x=>!x.IsDelete && x.UserLevelId == userData.UserLevelId).Select(x=>x.Name).FirstOrDefault();  
+            var mapped = new UserForListDto()
+            {
+                nameOfUser = userData.UserName,
+                emailOfUser  = userData.Email,  
+                ageOfUser = userData.Age,
+                mobileOfUser = userData.Mobile,
+                userLevelName  = userLevelName,
+                profileOfUser = userData.ProfileUrl,
+            };
+            return ApiHelper<UserForListDto>.Success(mapped, "Success");
         }
+
     }
+}

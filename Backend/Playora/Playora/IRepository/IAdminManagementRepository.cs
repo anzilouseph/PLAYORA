@@ -1,0 +1,10 @@
+﻿using Playora.Dto;
+using Playora.Utility;
+
+namespace Playora.IRepository
+{
+    public interface IAdminManagementRepository
+    {
+        public Task<ApiHelper<List<UserForListDto>>> GetAllUserByAdmin();
+    }
+}
