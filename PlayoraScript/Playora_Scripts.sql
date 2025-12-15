@@ -38,11 +38,13 @@ create table "Role"
 
 create table "Login"
 	("LoginId" BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	"UserId" Bigint ,
 	"Email" varchar(500) unique not null,
 	"Password"  varchar(500) not null,
 	"Salt" varchar(500)  not null,
 	"RoleId" BIGINT,
 	"IsDelete" bool Default false,
 		foreign key ("RoleId") references "Role"  ("RoleId") on delete set null,
-		foreign key ("Email") references "UserMaster" ("Email") on delete cascade
+		foreign key ("Email") references "UserMaster" ("Email") on delete cascade,
+	    foreign key ("UserId" )references "UserMaster" ("UserId") on delete  cascade
 	);

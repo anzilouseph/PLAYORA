@@ -1,0 +1,31 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build output
+bin/
+obj/
+
+# React
+node_modules/
+build/
+
+# Logs
+*.log
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Secrets
+*.env
+
+# EF Migrations backup files
+*.cache
+
+# .NET generated
+*.dll
+*.pdb
+*.exe
+*.json
