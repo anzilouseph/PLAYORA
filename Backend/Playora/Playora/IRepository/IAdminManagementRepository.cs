@@ -6,5 +6,6 @@ namespace Playora.IRepository
     public interface IAdminManagementRepository
     {
         public Task<ApiHelper<List<UserForListDto>>> GetAllUserByAdmin();
+        public Task<ApiHelper<UserForListDto>> GetUserByAdmin(long id);
     }
 }

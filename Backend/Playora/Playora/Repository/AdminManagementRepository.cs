@@ -40,7 +40,7 @@ namespace Playora.Repository
                                 emailOfUser = u.Email,
                                 profileOfUser = u.ProfileUrl,
                                 UserLevelId = u.UserLevelId,
-                                userLevelName = uulRes.Name,
+                                userLevelName = uulRes.Name??"",
                             });
                 var list = await data.ToListAsync();
                 return ApiHelper<List<UserForListDto>>.Success(list, "success");
@@ -51,5 +51,34 @@ namespace Playora.Repository
 
             }
         }
+
+        public async Task<ApiHelper<UserForListDto>> GetUserByAdmin(long id)
+        {
+            if(id<=0)
+            {
+                return ApiHelper<UserForListDto>.Error("Invalid Request");
+            }
+
+            var userData = await _context.Users.Where(x=>!x.IsDelete && x.UserId==id).FirstOrDefaultAsync();
+            if(userData==null)
+            {
+                return ApiHelper<UserForListDto>.Error("No User");
+            }
+            var userLevelname = await _context.Levels.Where(x=>!x.IsDelete && x.UserLevelId==userData.UserLevelId).Select(x=>x.Name).FirstOrDefaultAsync();
+
+            var mappped = new UserForListDto()
+            {
+                nameOfUser = userData.UserName,
+                mobileOfUser = userData.Email,
+                ageOfUser = userData.Age,
+                emailOfUser = userData.Email,
+                profileOfUser = userData.ProfileUrl,
+                UserLevelId = userData.UserLevelId,
+                userLevelName = userLevelname ?? "",
+            };
+
+            return ApiHelper<UserForListDto>.Success(mappped, "Success");
+        }
+
     }
 }

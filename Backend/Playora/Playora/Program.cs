@@ -19,10 +19,11 @@ builder.Services.AddCors(options =>
 });
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefailtConnection")));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(typeof(MapperClass));
 builder.Services.AddScoped<IAuthenticationManagementRepo, AuthenticationManagementRepo>();
 builder.Services.AddScoped<IUserManagementRepo, UserManagementRepo>();
+builder.Services.AddScoped<IAdminManagementRepository,AdminManagementRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

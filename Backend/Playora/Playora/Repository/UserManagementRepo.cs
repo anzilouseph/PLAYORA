@@ -68,19 +68,19 @@
                 return ApiHelper<UserForListDto>.Error("Invalid Request");
             }
 
-            var userData = _context.Users.Where(x => !x.IsDelete && x.UserLevelId == id).FirstOrDefault();
+            var userData = await _context.Users.Where(x => !x.IsDelete && x.UserLevelId == id).FirstOrDefaultAsync();
             if(userData == null)
             {
                 return ApiHelper<UserForListDto>.Error("No User");
             }
-            var userLevelName = _context.Levels.Where(x=>!x.IsDelete && x.UserLevelId == userData.UserLevelId).Select(x=>x.Name).FirstOrDefault();  
+            var userLevelName = await _context.Levels.Where(x=>!x.IsDelete && x.UserLevelId == userData.UserLevelId).Select(x=>x.Name).FirstOrDefaultAsync();  
             var mapped = new UserForListDto()
             {
                 nameOfUser = userData.UserName,
                 emailOfUser  = userData.Email,  
                 ageOfUser = userData.Age,
                 mobileOfUser = userData.Mobile,
-                userLevelName  = userLevelName,
+                userLevelName  = userLevelName??"",
                 profileOfUser = userData.ProfileUrl,
             };
             return ApiHelper<UserForListDto>.Success(mapped, "Success");
