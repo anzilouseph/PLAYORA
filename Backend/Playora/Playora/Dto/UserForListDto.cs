@@ -9,5 +9,6 @@
         public string profileOfUser { get; set; }
         public long UserLevelId { get; set; }
         public string userLevelName { get; set; }
+        public string RoleName { get; set; }
     }
 }

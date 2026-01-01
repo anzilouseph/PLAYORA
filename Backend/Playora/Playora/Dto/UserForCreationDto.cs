@@ -9,6 +9,7 @@
         public long UserLevelId { get; set; }
         public string? ProfileUrl { get; set; }
         public string Password { get; set; }
+        public long RoleId { get; set; }
 
     }
 }

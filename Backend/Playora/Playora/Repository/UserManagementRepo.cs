@@ -46,6 +46,7 @@
                     Email = userDetails.Email,
                     Password = hashedPassword,
                     Salt = salt,
+                    RoleId = user.RoleId,
                 };
                 try
                 {
@@ -68,11 +69,18 @@
                 return ApiHelper<UserForListDto>.Error("Invalid Request");
             }
 
-            var userData = await _context.Users.Where(x => !x.IsDelete && x.UserLevelId == id).FirstOrDefaultAsync();
+            var userData = await _context.Users.Where(x => !x.IsDelete && x.UserId == id).FirstOrDefaultAsync();
+
+            
+
             if(userData == null)
             {
                 return ApiHelper<UserForListDto>.Error("No User");
             }
+            var roleName = await (from l in _context.Logins
+                                  join r in _context.Roles on l.RoleId equals r.RoleId
+                                  where !l.IsDelete && l.UserId == userData.UserId
+                                  select r.RoleName).FirstOrDefaultAsync();
             var userLevelName = await _context.Levels.Where(x=>!x.IsDelete && x.UserLevelId == userData.UserLevelId).Select(x=>x.Name).FirstOrDefaultAsync();  
             var mapped = new UserForListDto()
             {
@@ -82,6 +90,7 @@
                 mobileOfUser = userData.Mobile,
                 userLevelName  = userLevelName??"",
                 profileOfUser = userData.ProfileUrl,
+                RoleName =  roleName?.ToLower(),
             };
             return ApiHelper<UserForListDto>.Success(mapped, "Success");
         }
