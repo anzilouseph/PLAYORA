@@ -33,6 +33,13 @@ create table "Role"
 );
 
 
+INSERT INTO "Role" ("RoleName", "Description")
+VALUES
+('User', 'Normal user who just loves to play'),
+('Turf', 'The turf owner or turf entity'),
+('Admin', 'System administrator');
+
+
 
 --4) "Login" table
 
