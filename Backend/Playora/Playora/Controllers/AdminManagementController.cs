@@ -13,9 +13,10 @@ namespace Playora.Controllers
         private readonly IAdminManagementRepository _repo;
         private readonly IUserManagementRepo _userRepo;
 
-        public AdminManagementController(IAdminManagementRepository repo)
+        public AdminManagementController(IAdminManagementRepository repo,IUserManagementRepo userRepo)
         {
             _repo = repo;
+            _userRepo = userRepo;
         }
 
         [Authorize]

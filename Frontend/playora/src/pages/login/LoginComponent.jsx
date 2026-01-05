@@ -35,7 +35,8 @@ const LoginComponent=()=>
                         console.log("logged in userdata",response2.data)
                         if(response2.data.roleName==="admin")
                         {
-                        alert(response2.data.roleName);
+                            localStorage.setItem("adminData",JSON.stringify(response2.data));
+                            nav("admin");
                         }
                         else if(response2.data.roleName==="turf") 
                         {
