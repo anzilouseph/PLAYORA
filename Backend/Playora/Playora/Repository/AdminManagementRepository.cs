@@ -80,5 +80,18 @@ namespace Playora.Repository
             return ApiHelper<UserForListDto>.Success(mappped, "Success");
         }
 
+
+        //for update user
+        public async Task<ApiHelper<UserForUpdateDto>> UpdateUserByIdByAdmin(UserForUpdateDto user, long id)
+        {
+            if(id<=0)
+            {
+                return ApiHelper<UserForUpdateDto>.Error("Invalid Id");
+            }
+            var exxistingData = _context.Users.Where(x => !x.IsDelete && x.UserId == id);
+            var mapped = _mapper.Map<>
+        }
+
+
     }
 }

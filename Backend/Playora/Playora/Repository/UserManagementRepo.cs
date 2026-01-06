@@ -29,6 +29,7 @@
                 var userDetails = new UserMaster();
                 userDetails = _mapper.Map<UserMaster>(user);
                 try
+
                 {
                     await _context.Users.AddAsync(userDetails);
                     await _context.SaveChangesAsync();
@@ -94,6 +95,8 @@
             };
             return ApiHelper<UserForListDto>.Success(mapped, "Success");
         }
+
+
 
     }
 }

@@ -33,7 +33,7 @@ namespace Playora.Controllers
                     return Unauthorized("Unable to Generate JWT");
                 }
                 var roleCheck = await _userRepo.GetOwnProfileById(userId);
-                if(roleCheck.data.userLevelName!="Admin")
+                if(roleCheck.data.RoleName!="admin")
                 {
                     return Unauthorized("Unauthorized");
                 }

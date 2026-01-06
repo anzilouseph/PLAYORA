@@ -7,5 +7,7 @@ namespace Playora.IRepository
     {
         public Task<ApiHelper<List<UserForListDto>>> GetAllUserByAdmin();
         public Task<ApiHelper<UserForListDto>> GetUserByAdmin(long id);
+        public Task<ApiHelper<UserForUpdateDto>> UpdateUserByIdByAdmin(UserForUpdateDto user, long id);
+
     }
 }

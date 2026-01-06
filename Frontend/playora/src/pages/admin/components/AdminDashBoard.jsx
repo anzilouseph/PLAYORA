@@ -64,12 +64,12 @@ return(
                                         <td>
                                             <div className="row d-flex">
                                               <div className="col-3">
-                                              <button type="button" className="btn btn-primary" onClick={()=>navFn(user.id)}>Edit</button>
+                                                <button type="button" className="btn btn-primary" onClick={()=>navFn(user.id)}>Edit</button>
+                                              </div>
+                                              <div className="col-3">
+                                                <button type="button" className="btn btn-danger">Delete</button>
                                               </div>
                                             </div>
-                                            <div className="col-3">
-                                              <button type="button" className="btn btn-danger">Delete</button>
-                                              </div>
                                         </td>
                                     </tr>
                                   )
