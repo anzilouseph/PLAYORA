@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Playora.Dto;
 using Playora.IRepository;
 
 namespace Playora.Controllers
@@ -71,6 +72,32 @@ namespace Playora.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
+            }
+        }
+
+        //for update user by admin
+        [Authorize]
+        [HttpPut ("user-update-by-admin/{id}")]
+        public async Task<IActionResult> UpdateUserByAdmin(UserForUpdateDto user,long id)
+        {
+            try
+            {
+                var userIdClaim = HttpContext.User.FindFirst(JwtRegisteredClaimNames.Sid);
+                if(userIdClaim == null || !long.TryParse(userIdClaim.Value,out long userId))
+                {
+                    return Unauthorized("Unable to generate JWT");
+                }
+                var roleCheck = await _userRepo.GetOwnProfileById(userId);
+                if (roleCheck.data.userLevelName != "Admin")
+                {
+                    return Unauthorized("Unauthorized");
+                }
+                var apiResponse = await _repo.UpdateUserByIdByAdmin(user,id);
+                return Ok(apiResponse);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500,ex.Message);
             }
         }
     }

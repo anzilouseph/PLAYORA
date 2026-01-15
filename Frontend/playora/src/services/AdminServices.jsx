@@ -27,6 +27,19 @@ import axios from "axios";
             {
                 throw error;
             }
+        },
+
+        updateUserByAdmin: async(data,id)=>
+        {
+            try
+            {
+                var response = await axios.put(`${url}/api/AdminManagement/user-update-by-admin/${id}`,data,getHeaders());
+                return response.data;
+            }
+            catch(error)
+            {
+                throw error;
+            }
         }
     }
     export default AdminServices;

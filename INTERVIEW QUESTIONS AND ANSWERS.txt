@@ -1,0 +1,74 @@
+					INTERVIEW QUESTIONS AND ANSWERS
+
+
+1)  What is IQUERIABLE,Ienumerablea nd List?
+
+
+
+"Mam, if we use IEnumerable, we take the whole data from the database and store it in memory, then filter from this memory, which is inefficient.
+
+And when we use ToList(), it's materialized data - it performs the filtering in the database, then the filtered data is stored in memory. If we need more filtration or querying, we use this memory.
+
+And IQueryable, it only builds the SQL query - it does not perform the database call yet, unless we call methods like ToList(), First(), Any(), etc.Until then, we're just building the SQL query string in memory."
+
+
+
+
+
+bUT
+
+Mam, if we use for loop on IQueryable:
+
+var users = db.Users.Where(x => x.Age > 18);  // IQueryable
+
+foreach(var user in users)  // ← THIS MAKES DATABASE CALL!
+{
+    Console.WriteLine(user.Name);
+}
+
+What happens:
+
+When foreach starts → Database call happens!
+
+Database executes: SELECT * FROM Users WHERE Age > 18
+
+Returns data row by row
+
+BUT: Connection stays open! Database is streaming data
+
+Problem:
+
+Slow - Database sends rows one by one
+
+Connection stays open - Bad for performance
+
+Can timeout if loop takes too long
+
+
+
+What happens:
+
+When foreach starts → Database call happens!
+
+Database executes: SELECT * FROM Users WHERE Age > 18
+
+Returns data row by row
+
+BUT: Connection stays open! Database is streaming data
+
+Problem:
+
+Slow - Database sends rows one by one
+
+Connection stays open - Bad for performance
+
+Can timeout if loop takes too long
+
+
+.ToList() → ONE database call: SELECT * FROM Users WHERE Age > 18
+
+Gets ALL data at once into memory
+
+Closes database connection immediately
+
+Loop runs on memory data (fast!)

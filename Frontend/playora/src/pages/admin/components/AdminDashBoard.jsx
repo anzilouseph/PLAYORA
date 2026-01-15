@@ -36,10 +36,14 @@ const AdminDashBoard=()=>
     }
 
     //for route to next page
-    const navFn=(id)=>
-    {
-        navigate(`admin/getUserById/${id}`)
-    };
+    // const navFn=(id)=>
+    // {
+    //     navigate(`admin/getUserById/${id}`)
+    // };
+    const navFn=(user)=>
+    {   
+        navigate(`admin/getUserById/${user.id}`,{state :{userData : user}})
+    }
 return(
     <div className="container mt-4 row d-flex alihn-items-center">
         <div className="col-10">
@@ -64,7 +68,7 @@ return(
                                         <td>
                                             <div className="row d-flex">
                                               <div className="col-3">
-                                                <button type="button" className="btn btn-primary" onClick={()=>navFn(user.id)}>Edit</button>
+                                                <button type="button" className="btn btn-primary" onClick={()=>navFn(user)}>Edit</button>
                                               </div>
                                               <div className="col-3">
                                                 <button type="button" className="btn btn-danger">Delete</button>

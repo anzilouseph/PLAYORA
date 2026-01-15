@@ -40,7 +40,7 @@
                 }
 
                 // the beauty of ef is taht we dont need to store the data into the db(to get the userId cuz user id  is auto increment in db )
-                //here after save changes async the object "userDetails" will beautomattically updatedand the "UserId" will be 1(first raw to te table)
+                //here after save changes async the object "userDetails" will be automattically updated and the "UserId" will be 1(first raw to te table)
                 var loginCredentials = new Login()
                 {
                     UserId = userDetails.UserId,

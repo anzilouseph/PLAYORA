@@ -6,6 +6,14 @@ Install-Package Microsoft.EntityFrameworkCore.Tools -Version 8.0.0
 
 Install-Package Npgsql.EntityFrameworkCore.PostgreSQL -Version 8.0.0
 
+Install-Package AutoMapper -Version 12.0.1
+
+Install-Package  AutoMapper.Extensions.Microsoft.DependencyInjection -Version 12.0.1
+
+
+
+
+
 
 
 
@@ -212,39 +220,35 @@ APPSETTINGS
 
 
 
-
-
 {
 
-&nbsp; "Logging": {
+&nbsp;   "Logging": {
 
-&nbsp;   "LogLevel": {
+&nbsp;       "LogLevel": {
 
-&nbsp;     "Default": "Information",
+&nbsp;           "Default": "Information",
 
-&nbsp;     "Microsoft.AspNetCore": "Warning"
+&nbsp;           "Microsoft.AspNetCore": "Warning"
+
+&nbsp;       }
+
+&nbsp;   },
+
+&nbsp;   "ConnectionStrings": { "DefaultConnection": "Host=localhost;Port=5432;Username=postgres;Database=PlayoraDB;Password=Ansil\_123" },
+
+
+
+&nbsp;   "AllowedHosts": "\*",
+
+&nbsp;   "JwtConfig": {
+
+&nbsp;       "Issuer": "Playora",
+
+&nbsp;       "Audience": "Playora",
+
+&nbsp;       "Key": "2017200c99738cf72cb3e7f2ce1496a00f29f1b8738112e206b9b361dfd02fa633fd5d4fd56433f42175c7f31f7fd3c724938794470a8f4ef23ba48fa8d7cd03"
 
 &nbsp;   }
-
-&nbsp; },
-
-&nbsp; "ConnectionStrings": { "DefaultConnection": "Server=DESKTOP-RH6IR22\\\\SQLEXPRESS2019;Database=library\_management;Trusted\_Connection=True;Encrypt=False;" },
-
-
-
-&nbsp; "AllowedHosts": "\*",
-
-
-
-&nbsp; "JwtConfig": {
-
-&nbsp;   "Issuer": "LibraryManagementSystem",
-
-&nbsp;   "Audience": "LibraryManagementSystem",
-
-&nbsp;   "Key": "Yh2k7QSu4l8CZg5p6X3Pna9L0Miy4D3Bvt0JVr87UcOj69Kqw5R2Nmf4FWs03Hdx"
-
-&nbsp; }
 
 }
 
@@ -302,15 +306,15 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefailtConnection")));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAutoMapper(typeof(MapperClass));   //Install-Package AutoMapper -Version 12.0.1  
-
-//Install-Package  AutoMapper.Extensions.Microsoft.DependencyInjection -Version 12.0.1 
+builder.Services.AddAutoMapper(typeof(MapperClass));
 
 builder.Services.AddScoped<IAuthenticationManagementRepo, AuthenticationManagementRepo>();
 
 builder.Services.AddScoped<IUserManagementRepo, UserManagementRepo>();
+
+builder.Services.AddScoped<IAdminManagementRepository,AdminManagementRepository>();
 
 builder.Services.AddControllers();
 
@@ -324,7 +328,7 @@ builder.Services.AddSwaggerGen(c =>
 
 {
 
-&nbsp;   c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "HMS", Version = "v1" });
+&nbsp;   c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "PLAYORA", Version = "v1" });
 
 &nbsp;   c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
 
@@ -472,7 +476,7 @@ app.UseHttpsRedirection();
 
 
 
-app.UseCors("AllowAnyOrgin");
+app.UseCors("AllowAnyOrigin");
 
 
 
@@ -489,6 +493,8 @@ app.MapControllers();
 
 
 app.Run();
+
+
 
 
 
@@ -1344,7 +1350,7 @@ const LoginComponent=()=>
 
 &nbsp;                                                               </div>
 
-&nbsp;                                                           )
+&nbsp;                                                           )b
 
 &nbsp;                                       }
 
@@ -1674,7 +1680,7 @@ const navFn(user)
 
 {
 
-nav(`admin/getuserbyid/${user.id}  ,  {state : {userData = user}}
+nav(`admin/getuserbyid/${user.id}  ,  {state : {userData : user}}
 
 }
 
@@ -1702,7 +1708,172 @@ console.log(location.state);    // { userData: {...} } (passed state)  ours
 
 
 
-3\)  Using props , but if we using propps we cant pass the data to a new url , if its a modal  then perfect but in our  case we uses new route so we cant pass data in props
+3\)  Using props , but if we using props we cant pass the data to a new url , if its a modal  then perfect but in our  case we uses new route so we cant pass data in props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&nbsp;			Arrow Function Return Types:
+
+
+
+
+
+
+// 1. Implicit return (no braces) - returns expression
+
+(user) => user.name  // Returns string
+
+
+
+// 2. Implicit return with parentheses - returns JSX  
+
+(user) => (<div>{user.name}</div>)  // Returns React element
+
+
+
+// 3. Explicit return (with braces) - needs return keyword
+
+(user) => {
+
+&nbsp; return <div>{user.name}</div>;  // Returns React element
+
+}
+
+
+
+// 4. Array return (with brackets) - returns array
+
+(user) => \[<div>{user.name}</div>]  // Returns array containing element
+
+
+
+
+
+
+
+
+
+GOLDEN RULES:
+
+For SINGLE element:
+
+
+
+
+&nbsp;	// ✅ Parentheses (implicit return)
+
+(user) => (<div>{user.name}</div>)
+
+
+
+// ✅ Braces with explicit return  
+
+(user) => {
+
+&nbsp; return <div>{user.name}</div>;
+
+}
+
+
+
+// ❌ Brackets (returns array)
+
+(user) => \[<div>{user.name}</div>]
+
+
+
+
+
+
+
+For MULTIPLE elements (no wrapper):
+
+
+
+// ✅ Brackets with comma separation
+
+(user) => \[
+
+&nbsp; <div key="1">{user.name}</div>,
+
+&nbsp; <div key="2">{user.age}</div>
+
+]
+
+
+
+// ✅ Fragment
+
+(user) => (
+
+&nbsp; <>
+
+&nbsp;   <div>{user.name}</div>
+
+&nbsp;   <div>{user.age}</div>
+
+&nbsp; </>
+
+)
+
+
+
+
+
+
+
+
+
+INTERVIEW ANSWER:
+
+"Mam, we use parentheses ( ) in arrow functions for JSX because:
+
+
+
+It allows implicit return - the JSX is automatically returned
+
+
+
+Without parentheses, multi-line JSX would need curly braces and return
+
+
+
+Square brackets \[ ] would wrap the element in an unnecessary array
+
+
+
+Parentheses make it clear this is a single JSX element being returned"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
